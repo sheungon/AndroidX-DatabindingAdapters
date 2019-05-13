@@ -4,7 +4,7 @@ Databinding Adapters for AndroidX. It covered the BindingAdapter and BindingMeth
 ### Integration
 #### Gradle
 ```gradle
-implementation 'com.sotwtm.androidx:databinding-adapters:0.9.0'
+implementation "com.sotwtm.androidx:databinding-adapters:0.9.0"
 ```
 
 ### Notes
