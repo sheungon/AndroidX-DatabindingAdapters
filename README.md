@@ -9,7 +9,20 @@ Databinding Adapters for AndroidX. It covered the BindingAdapter and BindingMeth
 
 ### Notes
 Find the BindingAdapter method by [ViewClass]BindingAdapter.<br />
-Currently it includes ActionBar, AdapterView, DrawerLayout, NavigationView, ProgressBar, RecyclerView, TabLayout, TextView, ViewPager.<br />
+Currently it includes the following classes.
+```kotlin
+ActionBar
+AdapterView
+DrawerLayout
+NavigationView
+ProgressBar
+RecyclerView
+TabLayout
+TextView
+ViewPager
+```
+
+I will keep adding more methods in this lib.<br />
 Feel freee to suggest more binding methods by opening new issues.<br />
 
 ## LICENSE
