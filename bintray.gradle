@@ -1,0 +1,77 @@
+/*
+ * Gradle Bintray Plugin
+ * https://github.com/bintray/gradle-bintray-plugin
+ * */
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'org.jetbrains.dokka-android'
+
+// Read setup
+Properties properties = new Properties()
+properties.load(project.rootProject.file('bintray.properties').newDataInputStream())
+
+version = properties.getProperty("lib.version")
+
+
+if (project.hasProperty("android")) { // Android libraries
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from android.sourceSets.main.java.srcDirs
+    }
+} else { // Java libraries
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+}
+
+dokka {
+    outputFormat = 'javadoc'
+    outputDirectory = "$buildDir/javadoc"
+}
+
+task javadocJar(type: Jar, dependsOn: dokka) {
+    classifier = 'javadoc'
+    from "$buildDir/javadoc"
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    publish = true
+    // [Default: false] Whether to run this as dry-run, without deploying
+    dryRun = false
+    pkg {
+        repo = properties.getProperty("bintray.repo")
+        name = properties.getProperty("bintray.name")
+        desc = properties.getProperty("lib.description")
+        websiteUrl = properties.getProperty("lib.siteUrl")
+        issueTrackerUrl = properties.getProperty("lib.issueTracker")
+        vcsUrl = properties.getProperty("lib.vcs")
+        licenses = properties.get("license.all")
+        publicDownloadNumbers = true
+
+        // Optional Github repository
+        githubRepo = properties.getProperty("github.repo")
+
+        version {
+            name = properties.getProperty("lib.version")
+            desc = properties.getProperty("lib.versionDescription")
+            released  = new Date()
+            vcsTag = properties.getProperty("lib.version")
+            gpg {
+                // Determines whether to GPG sign the files. The default is false
+                sign = true
+                // The passphrase for GPG signing'
+                passphrase = properties.getProperty("bintray.gpg.password")
+            }
+        }
+    }
+}

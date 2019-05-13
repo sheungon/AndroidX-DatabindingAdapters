@@ -1,0 +1,52 @@
+/*
+ * Gradle Android Maven plugin
+ * https://github.com/dcendents/android-maven-gradle-plugin
+ * */
+apply plugin: 'com.github.dcendents.android-maven'
+
+// Read setup
+Properties properties = new Properties()
+properties.load(project.rootProject.file('bintray.properties').newDataInputStream())
+
+// Maven Group ID for the artifact
+group = properties.getProperty("lib.groupId")
+version = properties.getProperty("lib.version")
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+                groupId properties.getProperty("lib.groupId")
+                artifactId properties.getProperty("lib.artifact")
+                version properties.getProperty("lib.version")
+
+                // Add your description here
+                name properties.getProperty("lib.name")
+                description properties.getProperty("lib.description")
+                url properties.getProperty("lib.siteUrl")
+
+                // Set your license
+                licenses {
+                    license {
+                        name properties.getProperty("license.name")
+                        url properties.getProperty("license.url")
+                    }
+                }
+                developers {
+                    developer {
+                        id properties.getProperty("developer.id")
+                        name properties.getProperty("developer.name")
+                        email properties.getProperty("developer.email")
+                    }
+                }
+                scm {
+                    connection properties.getProperty("lib.vcs")
+                    developerConnection properties.getProperty("lib.vcs")
+                    url properties.getProperty("lib.siteUrl")
+                }
+            }
+        }
+    }
+}

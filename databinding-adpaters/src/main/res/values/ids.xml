@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="drawerListener" type="id" />
+    <item name="onTabSelectedListener" type="id" />
+    <item name="layoutManagerReverseLayout" type="id"/>
+    <item name="autoMeasureEnabled" type="id"/>
+</resources>

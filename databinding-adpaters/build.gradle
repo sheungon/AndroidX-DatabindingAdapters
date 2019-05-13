@@ -1,0 +1,105 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+// For Code coverage
+apply plugin: 'jacoco'
+
+android {
+    compileSdkVersion compile_sdk_version
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion target_sdk_version
+        versionCode libVersionCode
+        versionName libVersionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            resourcePrefix "sotwtm_"
+            testCoverageEnabled true
+        }
+        release {
+            resourcePrefix "sotwtm_"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    /*
+    * To enable Android Data Binding Library
+    * See, https://developer.android.com/topic/libraries/data-binding/index.html
+    * */
+    dataBinding {
+        enabled = true
+    }
+
+    // Fix build error on including libs that with these files
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/MANIFEST.MF'
+        exclude 'META-INF/main.kotlin_module'
+    }
+
+    compileOptions {
+        encoding "UTF-8"
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    // continue build even found lint error
+    lintOptions {
+        abortOnError false
+    }
+
+    dexOptions {
+        // Avoid proguard build with OOM error
+        javaMaxHeapSize "4g"
+        jumboMode = true
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+        unitTests.all {
+            testLogging {
+                events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+            }
+        }
+    }
+}
+
+dependencies {
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-$versions.kotlin_env:$versions.kotlin"
+
+    // AndroidX libs
+    implementation 'com.google.android.material:material:1.0.0'
+
+    implementation "com.sotwtm.util:ec-log:$versions.android_ec_log"
+
+    androidTestImplementation "androidx.test.espresso:espresso-core:$versions.espresso"
+    testImplementation deps.junit
+}
+
+
+// Place it at the end of the file
+def bintrayProp = project.rootProject.file('bintray.properties')
+if (bintrayProp.isFile()) {
+    // Enable Bintray setup
+    apply from: '../install.gradle'
+    apply from: '../bintray.gradle'
+} else {
+    println 'No bintray.properties'
+}
