@@ -1,4 +1,4 @@
-# AndroidX-DatabindingAdapters [![](https://raw.githubusercontent.com/novoda/novoda/master/assets/btn_apache_lisence.png)](LICENSE)
+# AndroidX-DatabindingAdapters [ ![Download](https://api.bintray.com/packages/sheungon/maven/AndroidX-DatabindingAdapters/images/download.svg) ](https://bintray.com/sheungon/maven/AndroidX-DatabindingAdapters/_latestVersion) [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](LICENSE)
 Databinding Adapters for AndroidX. It covered the BindingAdapter and BindingMethod with AndroidX views.
 
 ### Integration
